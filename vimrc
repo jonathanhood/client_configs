@@ -8,3 +8,6 @@ set mouse =a
 autocmd FileType make setlocal noexpandtab
 
 au BufNewFile,BufRead *.gradle setf groovy
+
+call pathogen#infect()
+call pathogen#helptags()
