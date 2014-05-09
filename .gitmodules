@@ -1,3 +1,6 @@
 [submodule "vimfiles/bundle/vim-scala"]
 	path = vimfiles/bundle/vim-scala
 	url = https://github.com/derekwyatt/vim-scala.git
+[submodule "vimfiles/bundle/ctrlp.vim"]
+	path = vimfiles/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
