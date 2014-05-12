@@ -8,3 +8,5 @@ set mouse =a
 autocmd FileType make setlocal noexpandtab
 
 au BufNewFile,BufRead *.gradle setf groovy
+
+colorscheme slate
