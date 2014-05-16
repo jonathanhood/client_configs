@@ -9,6 +9,8 @@ autocmd FileType make setlocal noexpandtab
 
 au BufNewFile,BufRead *.gradle setf groovy
 
+colorscheme slate
+
 call pathogen#infect()
 call pathogen#helptags()
 
