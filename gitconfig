@@ -1,0 +1,5 @@
+[user]
+	email = me@jonathanhood.org
+	name = Jonathan Hood
+[push]
+	default = simple
