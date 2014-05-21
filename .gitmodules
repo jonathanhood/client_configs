@@ -10,3 +10,6 @@
 [submodule "vimfiles/bundle/genutils"]
 	path = vimfiles/bundle/genutils
 	url = https://github.com/vim-scripts/genutils.git
+[submodule "vimfiles/bundle/bufexplorer"]
+	path = vimfiles/bundle/bufexplorer
+	url = https://github.com/jlanzarotta/bufexplorer.git
