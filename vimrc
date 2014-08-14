@@ -19,6 +19,7 @@ endfunction
 """"""" General Vim Configuration
 syntax on
 set mouse =a
+set backspace =2
 call SetTabWidth(4)
 
 """"""" Filetype-Specific Settings
