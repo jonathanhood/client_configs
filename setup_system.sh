@@ -7,3 +7,12 @@ ln -s $CWD/vimfiles $HOME/.vim
 ln -s $CWD/gitconfig $HOME/.gitconfig
 ln -s $CWD/pam_environment $HOME/.pam_environment
 
+touch ~/.bashrc
+
+if ! grep -Fq "$CWD/bashrc" ~/.bashrc
+then
+    echo "" >> ~/.bashrc
+    echo "# Added by jhood's config setup" >> ~/.bashrc
+    echo "source $CWD/bashrc" >> ~/.bashrc
+fi
+
