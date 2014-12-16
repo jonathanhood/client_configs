@@ -21,6 +21,7 @@ syntax on
 set mouse =a
 set backspace =2
 call SetTabWidth(4)
+colorscheme twilight
 
 """"""" Filetype-Specific Settings
 
