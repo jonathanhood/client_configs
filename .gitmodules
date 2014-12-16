@@ -22,3 +22,6 @@
 [submodule "vimfiles/bundle/yang.vim"]
 	path = vimfiles/bundle/yang.vim
 	url = https://github.com/nathanalderson/yang.vim.git
+[submodule "vimfiles/bundle/vim-colorschemes"]
+	path = vimfiles/bundle/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
