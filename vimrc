@@ -17,10 +17,21 @@ function! SetTabWidth(size)
 endfunction
 
 """"""" General Vim Configuration
+set nocompatible
 syntax on
 set mouse =a
 set backspace =2
 call SetTabWidth(4)
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+set nobackup
+set nowritebackup
+set noswapfile
+set hidden
+set autoread
 
 """"""" Theme Configuratoin 
 set t_Co=256
