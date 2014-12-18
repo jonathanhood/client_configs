@@ -21,6 +21,10 @@ syntax on
 set mouse =a
 set backspace =2
 call SetTabWidth(4)
+
+""""""" Theme Configuratoin 
+set t_Co=256
+let g:earth_termcolors=256
 colorscheme earth 
 
 """"""" Filetype-Specific Settings
