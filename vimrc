@@ -36,7 +36,7 @@ set autoread
 """"""" Theme Configuratoin 
 set t_Co=256
 let g:earth_termcolors=256
-colorscheme earth 
+colorscheme twilight 
 
 """"""" Filetype-Specific Settings
 
