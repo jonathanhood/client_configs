@@ -1,7 +1,7 @@
 """"""" Pathogen Settings 
 let g:pathogen_disabled = []
 
-if !executable('p4')
+if hostname() != "jhoodhpw7"
     call add(g:pathogen_disabled, "perforce")
 endif
 
