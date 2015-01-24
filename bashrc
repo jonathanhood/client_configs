@@ -6,8 +6,10 @@ function nocolor {
 }
 
 function color {
-    unalias ls
+    alias ls="ls --color=auto"
 }
+
+color
 
 INNER_COLOR="\[\033[0;36m\]"
 OUTER_COLOR="\[\033[0;35m\]"
