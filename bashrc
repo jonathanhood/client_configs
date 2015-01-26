@@ -1,15 +1,18 @@
 alias xclip="xclip -selection c"
 export TERM=screen-256color
 
-function nocolor {
-    alias ls="ls --color=never"
-}
+if [ `uname` != "Darwin" ];
+then
+    function nocolor {
+        alias ls="ls --color=never"
+    }
 
-function color {
-    alias ls="ls --color=auto"
-}
+    function color {
+        alias ls="ls --color=auto"
+    }
 
-color
+    color
+fi
 
 INNER_COLOR="\[\033[0;36m\]"
 OUTER_COLOR="\[\033[0;35m\]"
