@@ -46,6 +46,9 @@ autocmd FileType make setlocal noexpandtab
 autocmd FileType scala call SetTabWidth(2) 
 
 " Groovy 
+autocmd FileType yaml call SetTabWidth(2) 
+
+" Groovy 
 au BufNewFile,BufRead *.gradle setf groovy
 
 """""" gVim configuration
@@ -55,8 +58,10 @@ endif
 
 """""" NERDTree Configuration
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-map <C-n> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle <CR>
 
 """""" Ctrl-P Configuration
 set wildignore+=*.class
+set wildignore+=*.pyc
+let g:ctrlp_cmd = 'CtrlP getcwd()'
 
