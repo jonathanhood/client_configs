@@ -32,6 +32,9 @@ set nowritebackup
 set noswapfile
 set hidden
 set autoread
+set laststatus=2
+set showtabline=2
+set noshowmode
 
 """"""" Theme Configuratoin 
 set t_Co=256
