@@ -66,5 +66,6 @@ map <C-n> :NERDTreeToggle <CR>
 """""" Ctrl-P Configuration
 set wildignore+=*.class
 set wildignore+=*.pyc
+set wildignore+=venv
 let g:ctrlp_cmd = 'CtrlP getcwd()'
 
