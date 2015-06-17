@@ -51,8 +51,11 @@ autocmd FileType scala call SetTabWidth(2)
 " Groovy 
 autocmd FileType yaml call SetTabWidth(2) 
 
-" Groovy 
+" Gradle
 au BufNewFile,BufRead *.gradle setf groovy
+
+" Python
+autocmd FileType python call SetTabWidth(2) 
 
 """""" gVim configuration
 if has("gui_running")
