@@ -15,7 +15,7 @@ then
 fi
 
 alias serve="python -m SimpleHTTPServer > /dev/null 2>&1 &"
-alias stopserve="ps | grep python | awk '{print $1}' | xargs kill"
+alias stopserve="ps | grep python | awk '{print \$1}' | xargs kill"
 
 INNER_COLOR="\[\033[0;36m\]"
 OUTER_COLOR="\[\033[0;35m\]"
