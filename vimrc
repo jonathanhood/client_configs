@@ -48,10 +48,13 @@ autocmd FileType make setlocal noexpandtab
 " Scala
 autocmd FileType scala call SetTabWidth(2) 
 
-" Groovy 
+" YAML 
 autocmd FileType yaml call SetTabWidth(2) 
 
-" Gradle
+" YANG 
+autocmd FileType yang call SetTabWidth(2) 
+
+" Gradle 
 au BufNewFile,BufRead *.gradle setf groovy
 
 " Python
@@ -71,4 +74,5 @@ set wildignore+=*.class
 set wildignore+=*.pyc
 set wildignore+=venv
 let g:ctrlp_cmd = 'CtrlP getcwd()'
+let g:ctrlp_max_files = 0
 
