@@ -1,7 +1,32 @@
+
+##
+## Setup xclip to copy to the same copy/paste
+## board used by the x-window system
+##
 alias xclip="xclip -selection c"
+
+##
+## Setup terminal colors so that vim will
+## be happy and colorful.
+##
 export TERM=screen-256color
 
-if [ `uname` != "Darwin" ];
+##
+## Platform Detection Helpers
+##
+function mac {
+    [ `uname` == "Darwin" ]
+}
+
+function linux {
+    [ `uname` != "Darwin" ]
+}
+
+## 
+## Setup macros to hide colors so that I can disable
+## them when SSH'd into the box via putty
+##
+if linux;
 then
     function nocolor {
         alias ls="ls --color=never"
@@ -14,9 +39,22 @@ then
     color
 fi
 
+##
+## Small commands to setup a static web server in
+## the current folder and stop it later
+##
 alias serve="python -m SimpleHTTPServer > /dev/null 2>&1 &"
-alias stopserve="ps -ux | grep SimpleHTTPServer | awk '{print \$2}' | xargs kill"
 
+if mac;
+then
+    alias stopserve="ps -ax | grep SimpleHTTPServer | head -n 1 | awk '{print \$1}' | xargs kill" 
+else
+    alias stopserve="ps -ux | grep SimpleHTTPServer | awk '{print \$2}' | xargs kill"
+fi
+
+##
+## Setup the terminal prompt
+##
 INNER_COLOR="\[\033[0;36m\]"
 OUTER_COLOR="\[\033[0;35m\]"
 NO_COLOR="\[\033[0m\]"
