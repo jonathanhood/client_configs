@@ -1,7 +1,7 @@
 """"""" Pathogen Settings 
 let g:pathogen_disabled = []
 
-if hostname() != "jhoodhpw7"
+if ! executable("p4")
     call add(g:pathogen_disabled, "perforce")
 endif
 
@@ -58,8 +58,9 @@ autocmd FileType yang call SetTabWidth(2)
 " Gradle 
 au BufNewFile,BufRead *.gradle setf groovy
 
-" Python
-autocmd FileType python call SetTabWidth(2) 
+" YANG
+au BufNewFile,BufRead *.yang setf yang 
+autocmd FileType yang call SetTabWidth(2)
 
 """""" gVim configuration
 if has("gui_running")
