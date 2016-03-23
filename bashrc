@@ -9,7 +9,7 @@ alias xclip="xclip -selection c"
 ## Setup terminal colors so that vim will
 ## be happy and colorful.
 ##
-export TERM=screen-256color
+export TERM=xterm-256color
 
 ##
 ## Platform Detection Helpers
