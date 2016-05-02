@@ -53,6 +53,15 @@ else
 fi
 
 ##
+## Use OpenConnect on Linux to connect with the ADTRAN
+## VPN without any i386 firefox headache
+##
+if linux
+then
+	alias vpn="sudo openconnect --juniper vpn.adtran.com"
+fi
+
+##
 ## Setup the terminal prompt
 ##
 INNER_COLOR="\[\033[0;36m\]"
