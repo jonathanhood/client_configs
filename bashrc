@@ -22,6 +22,10 @@ function linux {
     [ `uname` != "Darwin" ]
 }
 
+function xenial {
+    [ `lsb_release -sr` == "16.04" ]
+}
+
 ## 
 ## Setup macros to hide colors so that I can disable
 ## them when SSH'd into the box via putty
@@ -56,7 +60,7 @@ fi
 ## Use OpenConnect on Linux to connect with the ADTRAN
 ## VPN without any i386 firefox headache
 ##
-if linux
+if linux && xenial;
 then
 	alias vpn="sudo openconnect --juniper vpn.adtran.com"
 fi
