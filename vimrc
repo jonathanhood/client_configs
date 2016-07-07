@@ -10,9 +10,9 @@ call pathogen#helptags()
 
 """"""" Helper Methods
 function! SetTabWidth(size)
-    execute "set ts=".a:size
-    execute "set shiftwidth=".a:size
-    execute "set softtabstop=".a:size
+    execute "set tabstop =".a:size
+    execute "set softtabstop =".a:size
+    execute "set shiftwidth =".a:size
     set expandtab
 endfunction
 
@@ -21,7 +21,6 @@ set nocompatible
 syntax on
 set mouse =a
 set backspace =2
-call SetTabWidth(4)
 set ignorecase
 set smartcase
 set incsearch
@@ -36,6 +35,7 @@ set laststatus=2
 set showtabline=2
 set noshowmode
 set paste
+call SetTabWidth(4)
 
 """"""" Theme Configuratoin 
 set t_Co=256
