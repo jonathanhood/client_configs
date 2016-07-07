@@ -34,3 +34,9 @@
 [submodule "vimfiles/bundle/vim-markdown"]
 	path = vimfiles/bundle/vim-markdown
 	url = git@github.com:plasticboy/vim-markdown.git
+[submodule "tmux-sensible"]
+	path = tmux-sensible
+	url = git@github.com:tmux-plugins/tmux-sensible.git
+[submodule "tpm"]
+	path = tpm
+	url = git@github.com:tmux-plugins/tpm.git
