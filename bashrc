@@ -26,6 +26,10 @@ function xenial {
     [ `lsb_release -sr` == "16.04" ]
 }
 
+function bionic {
+    [ `lsb_release -sr` == "18.04" ]
+}
+
 function mint18 {
 	[ `lsb_release -sr` == "18" ]
 }
@@ -68,7 +72,7 @@ fi
 ## Use OpenConnect on Linux to connect with the ADTRAN
 ## VPN without any i386 firefox headache
 ##
-if linux && (xenial || mint18 || mint18_1);
+if linux && (xenial || mint18 || mint18_1 || bionic);
 then
 	alias vpn="sudo openconnect --juniper vpn.adtran.com"
 fi
