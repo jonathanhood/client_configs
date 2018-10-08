@@ -38,6 +38,10 @@ function mint18_1 {
 	[ `lsb_release -sr` == "18.1" ]
 }
 
+function mint19 {
+	[ `lsb_release -sr` == "19" ]
+}
+
 ## 
 ## Setup macros to hide colors so that I can disable
 ## them when SSH'd into the box via putty
@@ -72,7 +76,7 @@ fi
 ## Use OpenConnect on Linux to connect with the ADTRAN
 ## VPN without any i386 firefox headache
 ##
-if linux && (xenial || mint18 || mint18_1 || bionic);
+if linux && (xenial || mint18 || mint18_1 || bionic || mint19);
 then
 	alias vpn="sudo openconnect --juniper vpn.adtran.com"
 fi
