@@ -6,6 +6,11 @@
 alias xclip="xclip -selection c"
 
 ##
+## Deal with terrible overscanned TVs
+##
+alias fix-overscan="sudo intel_panel_fitter -p A -x 1820 -y 1020"
+
+##
 ## Setup terminal colors so that vim will
 ## be happy and colorful.
 ##
