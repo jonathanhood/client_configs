@@ -24,7 +24,7 @@ function mac {
 }
 
 function linux {
-    [ `uname` != "Darwin" ]
+    [[ `uname` != "Darwin" && `uname` != *"MINGW"* ]]
 }
 
 function xenial {
