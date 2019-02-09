@@ -75,6 +75,7 @@ map <C-n> :NERDTreeToggle <CR>
 set wildignore+=*.class
 set wildignore+=*.pyc
 set wildignore+=venv
+set wildignore+=node_modules
 let g:ctrlp_cmd = 'CtrlP getcwd()'
 let g:ctrlp_max_files = 0
 

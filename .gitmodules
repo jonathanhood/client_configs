@@ -40,3 +40,6 @@
 [submodule "tpm"]
 	path = tpm
 	url = git@github.com:tmux-plugins/tpm.git
+[submodule "vimfiles/bundle/typescript-vim"]
+	path = vimfiles/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
