@@ -42,7 +42,7 @@ sudo apt-get install -y \
 sudo usermod -aG docker $USER
 
 ## Get a python environment working
-sudo pip install virtualenv
+sudo pip install virtualenv tox
 
 echo "Setup completed! Log out and log back in to finish."
 
