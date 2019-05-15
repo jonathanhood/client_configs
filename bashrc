@@ -28,23 +28,23 @@ function linux {
 }
 
 function xenial {
-    [ `lsb_release -sr` == "16.04" ]
+    [[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "16.04" ]]
 }
 
 function bionic {
-    [ `lsb_release -sr` == "18.04" ]
+    [[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18.04" ]]
 }
 
 function mint18 {
-	[ `lsb_release -sr` == "18" ]
+	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18" ]]
 }
 
 function mint18_1 {
-	[ `lsb_release -sr` == "18.1" ]
+	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18.1" ]]
 }
 
 function mint19 {
-	[ `lsb_release -sr` == "19" ]
+	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "19" ]]
 }
 
 ## 
