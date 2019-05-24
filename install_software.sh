@@ -21,7 +21,8 @@ sudo apt-get install -y \
     gnupg-agent \
     software-properties-common \
     python-virtualenv \
-    python-tox
+    python-tox \
+    htop
 
 
 ## Setup the SBT Repository
