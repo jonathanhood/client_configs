@@ -96,8 +96,8 @@ function kaylee-environ {
 ##
 ## Setup the terminal prompt
 ##
-INNER_COLOR="\[\033[0;36m\]"
-OUTER_COLOR="\[\033[0;35m\]"
+INNER_COLOR="\[\033[0;96m\]"
+OUTER_COLOR="\[\033[0;95m\]"
 NO_COLOR="\[\033[0m\]"
 PS1="$OUTER_COLOR[$INNER_COLOR\u@\h:\w$OUTER_COLOR]>$NO_COLOR "
 
