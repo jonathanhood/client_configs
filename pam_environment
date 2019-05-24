@@ -1,4 +1,0 @@
-# Configure perforce
-P4PORT=p4-cn-srv.adtran.com:1666
-P4CLIENT=jhood_jhoodhpw7_linux
-
