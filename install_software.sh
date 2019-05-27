@@ -22,7 +22,8 @@ sudo apt-get install -y \
     software-properties-common \
     python-virtualenv \
     python-tox \
-    htop
+    htop \
+    openconnect
 
 
 ## Setup the SBT Repository
