@@ -101,3 +101,9 @@ OUTER_COLOR="\[\033[0;95m\]"
 NO_COLOR="\[\033[0m\]"
 PS1="$OUTER_COLOR[$INNER_COLOR\u@\h:\w$OUTER_COLOR]>$NO_COLOR "
 
+
+##
+## Ensure pythons ~/.local/bin is on the path
+##
+PATH=$HOME/.local/bin:$PATH 
+
