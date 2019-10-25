@@ -19,7 +19,14 @@ First, make sure gpg is installed along with daemons needed for reading the yubi
 
 ```
 sudo apt install curl gnupg2 pcscd scdaemon
-curl https://raw.githubusercontent.com/jonathanhood/config/master/7E4353E8981E46F94F197EA84FC4626078273D72.public.key | gpg --import
+```
+
+Now, download the public key for the card.
+
+```
+gpg --edit-card
+fetch
+quit
 ```
 
 Now, edit `~/.gnupg/gpg-agent.conf" to contain the following contents:
