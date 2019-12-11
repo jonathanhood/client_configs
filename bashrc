@@ -17,6 +17,12 @@ alias fix-overscan="sudo intel_panel_fitter -p A -x 1820 -y 1020"
 export TERM=xterm-256color
 
 ##
+## Stop making vim lock up if I happen to hit ctrl+s
+## by accident
+##
+stty -ixon
+
+##
 ## Platform Detection Helpers
 ##
 function mac {
