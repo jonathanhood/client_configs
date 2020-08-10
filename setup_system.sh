@@ -20,12 +20,13 @@ then
     echo "source $CWD/bashrc" >> ~/.bashrc
 fi
 
-
-if ! grep -Fq "$CWD/zshrc" ~/.zshrc
-then
-    echo "" >> ~/.zshrc
-    echo "# Added by jhood's config setup" >> ~/.zshrc
-    echo "source $CWD/zshrc" >> ~/.zshrc
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+if [ -f "/bin/zsh" ]; then
+    if ! grep -Fq "$CWD/zshrc" ~/.zshrc
+    then
+        echo "" >> ~/.zshrc
+        echo "# Added by jhood's config setup" >> ~/.zshrc
+        echo "source $CWD/zshrc" >> ~/.zshrc
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    fi
 fi
 
