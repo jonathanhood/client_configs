@@ -27,6 +27,8 @@ if [ -f "/bin/zsh" ]; then
         echo "# Added by jhood's config setup" >> ~/.zshrc
         echo "source $CWD/zshrc" >> ~/.zshrc
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+        ln -s $CWD/gpg.zsh $HOME/.oh-my-zsh/custom/gpg.zsh
     fi
 fi
 
