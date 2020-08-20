@@ -6,11 +6,6 @@
 alias xclip="xclip -selection c"
 
 ##
-## Deal with terrible overscanned TVs
-##
-alias fix-overscan="sudo intel_panel_fitter -p A -x 1820 -y 1020"
-
-##
 ## Setup terminal colors so that vim will
 ## be happy and colorful.
 ##
@@ -31,26 +26,6 @@ function mac {
 
 function linux {
     [[ `uname` != "Darwin" && `uname` != *"MINGW"* ]]
-}
-
-function xenial {
-    [[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "16.04" ]]
-}
-
-function bionic {
-    [[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18.04" ]]
-}
-
-function mint18 {
-	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18" ]]
-}
-
-function mint18_1 {
-	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "18.1" ]]
-}
-
-function mint19 {
-	[[ -x "$(command -v lsb_release)" && `lsb_release -sr` == "19" ]]
 }
 
 ## 
@@ -82,22 +57,6 @@ then
 else
     alias stopserve="ps -ux | grep SimpleHTTPServer | awk '{print \$2}' | xargs kill"
 fi
-
-##
-## Use OpenConnect on Linux to connect with the ADTRAN
-## VPN without any i386 firefox headache
-##
-if linux && (xenial || mint18 || mint18_1 || bionic || mint19);
-then
-	alias vpn="sudo openconnect --juniper vpn.adtran.com"
-fi
-
-##
-## Make setting up a kaylee environment easier
-##
-function kaylee-environ {
-    eval " $(kaylee dev environ)"
-}
 
 ##
 ## Setup the terminal prompt
