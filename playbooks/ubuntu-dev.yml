@@ -52,6 +52,23 @@
       update_cache: yes
 
 ##
+## Install 1Password CLI
+##
+  - name: Install 1password apt key
+    ansible.builtin.apt_key:
+      url: https://downloads.1password.com/linux/keys/1password.asc
+      keyring: /usr/share/keyrings/1password-archive-keyring.gpg
+      state: present
+  - name: Install 1password apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+      state: present
+  - name: Install 1password CLI
+    apt:
+      pkg:
+        - 1password-cli
+
+##
 ## VSCode
 ##
   - name: Install vscode apt key
@@ -266,6 +283,23 @@
       creates: /usr/local/bin/aws
   - name: Run AWS CLI Updater
     ansible.builtin.shell: /opt/aws/install --update
+  - name: Create aws config directory
+    file:
+      path: /home/jhood/.aws
+      state: directory
+      owner: jhood
+      group: jhood
+  - name: Copy Configuration
+    ansible.builtin.copy:
+      src: ../dotfiles/aws_config
+      dest: /home/jhood/.aws/config
+      owner: jhood
+      group: jhood
+      mode: '0644'
+  - name: Inject Credentials from 1password
+    ansible.builtin.shell: op inject --account tangotango.1password.com -i ../dotfiles/aws_credentials -o /home/jhood/.aws/credentials
+    become: yes
+    become_user: jhood
 
 ##
 ## Android Build Dependencies (NDK)
@@ -324,6 +358,14 @@
   - name: Install maven
     apt:
       pkg: maven
+      state: latest
+
+##
+## Protocol Buffers
+##
+  - name: Install maven
+    apt:
+      pkg: protobuf-compiler
       state: latest
 
 ##
