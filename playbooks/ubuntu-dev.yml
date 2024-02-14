@@ -1,0 +1,364 @@
+---
+- name: Install Linux System
+  hosts: localhost
+
+  tasks:
+
+##
+## Basic host and setup
+##
+  - name: Configure git email
+    community.general.git_config:
+      name: user.email
+      value: jonathan@thehoods.io
+  - name: Configure git username
+    community.general.git_config:
+      name: user.name
+      value: Jonathan Hood
+
+
+##
+## Setup Tailscale
+##
+  - name: Setup Tailscale
+    block:
+      - name: Add tailscale signing key
+        ansible.builtin.apt_key:
+          url: https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg
+          state: present
+      - name: Add tailscale repository
+        ansible.builtin.apt_repository:
+          repo: deb https://pkgs.tailscale.com/stable/ubuntu focal main
+          state: present
+      - name: Install tailscale client
+        ansible.builtin.apt:
+          state: latest
+          name: tailscale
+
+##
+## Helpful Tooling
+##
+  - name: Install Usefull Tooling 
+    apt:
+      pkg:
+        - git
+        - unzip
+        - jq
+        - vim
+        - silversearcher-ag
+        - tree
+        - htop
+      state: latest
+      update_cache: yes
+
+##
+## VSCode
+##
+  - name: Install vscode apt key
+    ansible.builtin.apt_key:
+      url: https://packages.microsoft.com/keys/microsoft.asc
+      state: present
+  - name: Install vscode apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
+      state: present
+  - name: Install vscode
+    apt:
+      pkg:
+        - code
+
+##
+## Setup zsh
+##
+  - name: Install zsh
+    apt:
+      pkg:
+        - zsh
+      state: latest
+  - name: register status of oh-my-zsh
+    stat:
+      path: /home/jhood/.oh-my-zsh
+    register: omz_path
+  - name: Install oh-my-zsh
+    when: "not omz_path.stat.exists"
+    ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    become: yes
+    become_user: jhood
+  - name: register status of oh-my-posh
+    stat:
+      path: /usr/local/bin/oh-my-posh
+    register: omp_path
+  - name: Install oh-my-posh
+    when: "not omp_path.stat.exists"
+    ansible.builtin.shell: curl -s https://ohmyposh.dev/install.sh | bash -s
+    become: yes
+    become_user: jhood
+  - name: Create themes directory
+    file:
+      path: /home/jhood/.oh-my-posh/themes
+      state: directory
+  - name: Install oh-my-posh theme
+    ansible.builtin.get_url:
+      url: https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/capr4n.omp.json
+      dest: /home/jhood/.oh-my-posh/themes/capr4n.omp.json
+      mode: '0644'
+  - name: Set login shell to zsh
+    ansible.builtin.command: usermod --shell /bin/zsh jhood
+    changed_when: false
+  - name: Install Font
+    ansible.builtin.command: oh-my-posh font install FiraMono
+    become: yes
+    become_user: jhood
+  - name: Copy .zshrc
+    ansible.builtin.copy:
+      src: ../dotfiles/zshrc
+      dest: /home/jhood/.zshrc
+      owner: jhood
+      group: jhood
+      mode: '0644'
+
+##
+## Set up asdf
+##
+  - name: register status of asdf
+    stat:
+      path: /home/jhood/.asdf
+    register: asdf_path
+  - name: Install asdf
+    when: "not asdf_path.stat.exists"
+    ansible.builtin.shell: git clone https://github.com/asdf-vm/asdf.git /home/jhood/.asdf --branch v0.14.0
+    become: yes
+    become_user: jhood
+
+##
+## Github CLI
+##
+  - name: Install github apt key
+    ansible.builtin.apt_key:
+      url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+      state: present
+  - name: Install github apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64] https://cli.github.com/packages stable main
+      state: present
+  - name: Install github cli
+    apt:
+      pkg:
+        - gh
+
+##
+## Docker
+##
+  - name: Install docker apt key
+    ansible.builtin.apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
+  - name: Install docker apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+      state: present
+  - name: Install qemu
+    apt:
+      pkg:
+        - qemu-user
+        - qemu-user-static
+  - name: Install docker
+    apt:
+      pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+  - name: Add the jhood user to the docker group
+    ansible.builtin.user:
+      name: jhood 
+      groups: docker
+      append: yes
+  - name: Ensure docker is running and enabled
+    ansible.builtin.systemd:
+      name: docker.service
+      state: reloaded
+      enabled: true
+  - name: Ensure containerd is running and enabled
+    ansible.builtin.systemd:
+      name: containerd.service
+      state: started
+      enabled: true
+
+##
+## Python
+##
+  - name: Install python3
+    apt:
+      pkg:
+        - python3
+        - python3-pip
+      state: latest
+
+##
+## C/C++ Builds (GCC)
+##
+  - name: Install GCC tools
+    apt:
+      pkg:
+        - build-essential
+        - gcovr
+      state: latest
+
+##
+## C/C++ Builds (Clang)
+##
+  - name: Install clang tools
+    apt:
+      pkg:
+        - clang
+        - clang-tidy
+        - clang-format
+      state: latest
+
+##
+## C/C++ Builds (GCC Cross)
+##
+  - name: Install GCC cross tools
+    apt:
+      pkg:
+        - gcc-10-mipsel-linux-gnu
+        - g++-10-mipsel-linux-gnu
+        - gcc-10-arm-linux-gnueabihf
+        - g++-10-arm-linux-gnueabihf
+      state: latest
+
+##
+## C/C++ Builds (Meson)
+##
+  - name: Install Meson tools
+    apt:
+      pkg:
+        - pkg-config
+        - ninja-build
+      state: latest
+  - name: Install meson python package
+    pip:
+      name: meson==1.0.0
+
+##
+## Development Libraries
+##
+  - name: Install Development libraries
+    apt:
+      pkg:
+        - libssl-dev
+        - libogg-dev
+        - libopus-dev
+        - libcurl4-openssl-dev
+      state: latest
+
+##
+## AWS Command Line Tools
+##
+  - name: Download and Extract AWS CLI
+    ansible.builtin.unarchive:
+      src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: /opt
+      remote_src: yes
+      owner: jhood 
+      creates: /usr/local/bin/aws
+  - name: Run AWS CLI Updater
+    ansible.builtin.shell: /opt/aws/install --update
+
+##
+## Android Build Dependencies (NDK)
+##
+  - name: Download and Extract NDK (r22b)
+    ansible.builtin.unarchive:
+      src: https://dl.google.com/android/repository/android-ndk-r22b-linux-x86_64.zip
+      dest: /opt
+      remote_src: yes
+      owner: jhood 
+      creates: /opt/android-ndk-r22b/README.md
+  - name: Download and Extract NDK (r25c)
+    ansible.builtin.unarchive:
+      src: https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+      dest: /opt
+      remote_src: yes
+      owner: jhood 
+      creates: /opt/android-ndk-r25c/README.md
+
+##
+## Rust Builds
+##
+  - name: Download rustup-init
+    ansible.builtin.get_url:
+      url: https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+      dest: /usr/local/bin/rustup-init
+      mode: '0555'
+  - name: Run rustup-init (for jhood user)
+    ansible.builtin.shell: /usr/local/bin/rustup-init -q -y
+    become: true
+    become_user: jhood
+  - name: Create the cross install directory
+    file:
+      path: /opt/cross
+      state: directory
+  - name: Download and extract cross
+    ansible.builtin.unarchive:
+      src: https://github.com/cross-rs/cross/releases/download/v0.2.5/cross-x86_64-unknown-linux-gnu.tar.gz
+      creates: /opt/cross/cross
+      dest: /opt/cross
+      remote_src: yes
+  - name: Install cross
+    ansible.builtin.file:
+      src: /opt/cross/cross
+      dest: /usr/local/bin/cross
+      state: link
+  - name: Install cross-util
+    ansible.builtin.file:
+      src: /opt/cross/cross-util
+      dest: /usr/local/bin/cross-util
+      state: link
+
+##
+## Maven
+##
+  - name: Install maven
+    apt:
+      pkg: maven
+      state: latest
+
+##
+## Firmware Builds
+##
+  - name: Install fwup
+    ansible.builtin.apt:
+      deb: https://github.com/fwup-home/fwup/releases/download/v1.10.1/fwup_1.10.1_amd64.deb
+  - name: Install device tree compiler
+    ansible.builtin.apt:
+      pkg: device-tree-compiler
+      state: latest
+
+##
+## Shine/Flutter builds
+##
+  - name: Install Ruby dependencies
+    ansible.builtin.apt:
+      state: latest
+      pkg:
+        - libreadline-dev
+        - libyaml-dev
+  - name: Install other Shine dependencies
+    ansible.builtin.apt:
+      state: latest
+      pkg:
+        - sqlite3
+        - libsqlite3-dev
+        - opus-tools
+
+##
+## Coverage tools
+##
+  - name: Install coverage tools
+    ansible.builtin.apt:
+      state: latest
+      pkg: lcov
+
