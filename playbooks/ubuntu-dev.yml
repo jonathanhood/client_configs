@@ -15,6 +15,12 @@
     community.general.git_config:
       name: user.name
       value: Jonathan Hood
+  - name: Create local bin directory
+    file:
+      path: /home/jhood/.local/bin
+      state: directory
+      owner: jhood
+      group: jhood
 
 
 ##
@@ -77,7 +83,7 @@
       state: present
   - name: Install vscode apt repository
     ansible.builtin.apt_repository:
-      repo: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
+      repo: deb [arch=amd64,arm64] https://packages.microsoft.com/repos/code stable main
       state: present
   - name: Install vscode
     apt:
@@ -107,7 +113,7 @@
     register: omp_path
   - name: Install oh-my-posh
     when: "not omp_path.stat.exists"
-    ansible.builtin.shell: curl -s https://ohmyposh.dev/install.sh | bash -s
+    ansible.builtin.shell: curl -s https://ohmyposh.dev/install.sh | bash -s -- -d /home/jhood/.local/bin
     become: yes
     become_user: jhood
   - name: Create themes directory
@@ -123,7 +129,7 @@
     ansible.builtin.command: usermod --shell /bin/zsh jhood
     changed_when: false
   - name: Install Font
-    ansible.builtin.command: oh-my-posh font install FiraMono
+    ansible.builtin.command: /home/jhood/.local/bin/oh-my-posh font install FiraMono
     become: yes
     become_user: jhood
   - name: Copy .zshrc
@@ -172,7 +178,7 @@
       state: present
   - name: Install docker apt repository
     ansible.builtin.apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+      repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu jammy stable
       state: present
   - name: Install qemu
     apt:
@@ -297,7 +303,9 @@
       group: jhood
       mode: '0644'
   - name: Inject Credentials from 1password
-    ansible.builtin.shell: op inject --account tangotango.1password.com -i ../dotfiles/aws_credentials -o /home/jhood/.aws/credentials
+    ansible.builtin.shell:
+      cmd: op inject --account tangotango.1password.com -i ../dotfiles/aws_credentials -o /home/jhood/.aws/credentials
+      creates: /home/jhood/.aws/credentials
     become: yes
     become_user: jhood
 
@@ -322,9 +330,12 @@
 ##
 ## Rust Builds
 ##
+  - name: Get System Arch
+    shell: dpkg --print-architecture | sed 's/arm64/aarch64/'
+    register: rust_arch
   - name: Download rustup-init
     ansible.builtin.get_url:
-      url: https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+      url: https://static.rust-lang.org/rustup/dist/{{ rust_arch.stdout }}-unknown-linux-gnu/rustup-init
       dest: /usr/local/bin/rustup-init
       mode: '0555'
   - name: Run rustup-init (for jhood user)
@@ -335,35 +346,15 @@
     file:
       path: /opt/cross
       state: directory
-  - name: Download and extract cross
-    ansible.builtin.unarchive:
-      src: https://github.com/cross-rs/cross/releases/download/v0.2.5/cross-x86_64-unknown-linux-gnu.tar.gz
-      creates: /opt/cross/cross
-      dest: /opt/cross
-      remote_src: yes
   - name: Install cross
-    ansible.builtin.file:
-      src: /opt/cross/cross
-      dest: /usr/local/bin/cross
-      state: link
-  - name: Install cross-util
-    ansible.builtin.file:
-      src: /opt/cross/cross-util
-      dest: /usr/local/bin/cross-util
-      state: link
-
-##
-## Maven
-##
-  - name: Install maven
-    apt:
-      pkg: maven
-      state: latest
+    shell: /home/jhood/.cargo/bin/cargo install cross --git https://github.com/cross-rs/cross --branch v0.2.5
+    become: true
+    become_user: jhood
 
 ##
 ## Protocol Buffers
 ##
-  - name: Install maven
+  - name: Install protobuf 
     apt:
       pkg: protobuf-compiler
       state: latest
@@ -371,36 +362,33 @@
 ##
 ## Firmware Builds
 ##
-  - name: Install fwup
-    ansible.builtin.apt:
-      deb: https://github.com/fwup-home/fwup/releases/download/v1.10.1/fwup_1.10.1_amd64.deb
-  - name: Install device tree compiler
-    ansible.builtin.apt:
-      pkg: device-tree-compiler
-      state: latest
-
-##
-## Shine/Flutter builds
-##
-  - name: Install Ruby dependencies
-    ansible.builtin.apt:
-      state: latest
+  - name: Install fwup build dependencies
+    apt:
       pkg:
-        - libreadline-dev
-        - libyaml-dev
-  - name: Install other Shine dependencies
-    ansible.builtin.apt:
+        - build-essential
+        - autoconf
+        - pkg-config
+        - libtool
+        - mtools
+        - zip
+        - help2man
+        - libconfuse-dev
+        - libarchive-dev
+        - xdelta3
+        - dosfstools
       state: latest
-      pkg:
-        - sqlite3
-        - libsqlite3-dev
-        - opus-tools
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: 'https://github.com/fwup-home/fwup.git'
+      dest: /home/jhood/.fwup
+      version: v1.10.1
+    become: true
+    become_user: jhood
+  - name: Build and Install Fwup
+    ansible.builtin.shell:
+      chdir: /home/jhood/.fwup
+      cmd: ./autogen.sh && ./configure --prefix=/home/jhood/.local && make && make install
+    become: true
+    become_user: jhood
 
-##
-## Coverage tools
-##
-  - name: Install coverage tools
-    ansible.builtin.apt:
-      state: latest
-      pkg: lcov
-
+        
