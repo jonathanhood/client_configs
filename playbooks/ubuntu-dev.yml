@@ -29,9 +29,11 @@
   - name: Setup Tailscale
     block:
       - name: Add tailscale signing key
-        ansible.builtin.apt_key:
+        ansible.builtin.get_url:
           url: https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg
-          state: present
+          dest: /etc/apt/trusted.gpg.d/tailscale.gpg
+          mode: '0644'
+          force: true
       - name: Add tailscale repository
         ansible.builtin.apt_repository:
           repo: deb https://pkgs.tailscale.com/stable/ubuntu focal main
@@ -61,10 +63,11 @@
 ## Install 1Password CLI
 ##
   - name: Install 1password apt key
-    ansible.builtin.apt_key:
+    ansible.builtin.get_url:
       url: https://downloads.1password.com/linux/keys/1password.asc
-      keyring: /usr/share/keyrings/1password-archive-keyring.gpg
-      state: present
+      dest: /etc/apt/trusted.gpg.d/1password.asc
+      mode: '0644'
+      force: true
   - name: Install 1password apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
@@ -78,9 +81,11 @@
 ## VSCode
 ##
   - name: Install vscode apt key
-    ansible.builtin.apt_key:
+    ansible.builtin.get_url:
       url: https://packages.microsoft.com/keys/microsoft.asc
-      state: present
+      dest: /etc/apt/trusted.gpg.d/microsoft.asc
+      mode: '0644'
+      force: true
   - name: Install vscode apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64,arm64] https://packages.microsoft.com/repos/code stable main
@@ -157,9 +162,11 @@
 ## Github CLI
 ##
   - name: Install github apt key
-    ansible.builtin.apt_key:
+    ansible.builtin.get_url:
       url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-      state: present
+      dest: /etc/apt/trusted.gpg.d/githubcli-archive-keyring.asc
+      mode: '0644'
+      force: true
   - name: Install github apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64] https://cli.github.com/packages stable main
@@ -173,9 +180,11 @@
 ## Docker
 ##
   - name: Install docker apt key
-    ansible.builtin.apt_key:
+    ansible.builtin.get_url:
       url: https://download.docker.com/linux/debian/gpg
-      state: present
+      dest: /etc/apt/trusted.gpg.d/docker.asc
+      mode: '0644'
+      force: true
   - name: Install docker apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu jammy stable
