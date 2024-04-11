@@ -37,6 +37,7 @@
       - name: Add tailscale repository
         ansible.builtin.apt_repository:
           repo: deb https://pkgs.tailscale.com/stable/ubuntu jammy main
+          filename: tailscale
           state: present
       - name: Install tailscale client
         ansible.builtin.apt:
@@ -59,6 +60,7 @@
       - name: Add trivy repository
         ansible.builtin.apt_repository:
           repo: deb https://aquasecurity.github.io/trivy-repo/deb jammy main
+          filename: trivy
           state: present
       - name: Install trivy
         ansible.builtin.apt:
@@ -93,6 +95,7 @@
   - name: Install 1password apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+      filename: 1password
       state: present
   - name: Install 1password CLI
     apt:
@@ -111,6 +114,7 @@
   - name: Install vscode apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64,arm64] https://packages.microsoft.com/repos/code stable main
+      filename: vscode
       state: present
   - name: Install vscode
     apt:
@@ -192,6 +196,7 @@
   - name: Install github apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64] https://cli.github.com/packages stable main
+      filename: github
       state: present
   - name: Install github cli
     apt:
@@ -210,6 +215,7 @@
   - name: Install docker apt repository
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu jammy stable
+      filename: docker
       state: present
   - name: Install qemu
     apt:
