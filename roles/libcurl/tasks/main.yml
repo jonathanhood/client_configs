@@ -1,0 +1,11 @@
+- name: Install libcurl (Debian)
+  when: ansible_os_family == 'Debian'
+  apt:
+    name: libcurl4-openssl-dev
+    state: present
+
+- name: Install libcurl (Mac)
+  when: ansible_os_family == 'Darwin'
+  homebrew:
+    name: curl
+    state: present

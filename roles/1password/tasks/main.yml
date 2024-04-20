@@ -1,0 +1,24 @@
+- name: Setup 1Password (Debian-based Systems)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  
+  - name: Install 1password apt key
+    ansible.builtin.get_url:
+      url: https://downloads.1password.com/linux/keys/1password.asc
+      dest: /etc/apt/trusted.gpg.d/1password.asc
+      mode: '0644'
+      force: true
+    become: true
+
+  - name: Install 1password apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
+      filename: 1password
+      state: present
+    become: true
+
+  - name: Install 1password CLI
+    apt:
+      pkg:
+        - 1password-cli
+    become: true

@@ -1,0 +1,9 @@
+- name: Download and Extract NDK (Linux)
+  when: ansible_facts['os_family'] == 'Debian'
+  ansible.builtin.unarchive:
+    src: https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+    dest: /opt
+    remote_src: yes
+    owner: "{{ ansible_user }}"
+    creates: /opt/android-ndk-r25c/README.md
+  become: true

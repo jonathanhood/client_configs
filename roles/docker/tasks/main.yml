@@ -1,0 +1,51 @@
+- name: Install Docker (Ubuntu 22.04)
+  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'
+  block:
+
+  - name: Install docker apt key
+    ansible.builtin.get_url:
+      url: https://download.docker.com/linux/debian/gpg
+      dest: /etc/apt/trusted.gpg.d/docker.asc
+      mode: '0644'
+      force: true
+    become: true
+    
+  - name: Install docker apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu jammy stable
+      filename: docker
+      state: present
+    become: true
+        
+  - name: Install docker and qemu
+    apt:
+      pkg:
+        - qemu-user
+        - qemu-user-static
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+    become: true
+  
+  - name: Add the user to the docker group
+    ansible.builtin.user:
+      name: "{{ ansible_user }}"
+      groups: docker
+      append: yes
+    become: true
+
+  - name: Ensure docker is running and enabled
+    ansible.builtin.systemd:
+      name: docker.service
+      state: reloaded
+      enabled: true
+    become: true
+
+  - name: Ensure containerd is running and enabled
+    ansible.builtin.systemd:
+      name: containerd.service
+      state: started
+      enabled: true
+    become: true

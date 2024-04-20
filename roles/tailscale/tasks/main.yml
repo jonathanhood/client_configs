@@ -1,0 +1,23 @@
+- name: Setup Tailscale (Ubuntu 22.04)
+  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'
+  block:
+    - name: Add tailscale signing key
+      ansible.builtin.get_url:
+        url: https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg
+        dest: /etc/apt/trusted.gpg.d/tailscale.gpg
+        mode: '0644'
+        force: true
+      become: true
+
+    - name: Add tailscale repository
+      ansible.builtin.apt_repository:
+        repo: deb https://pkgs.tailscale.com/stable/ubuntu jammy main
+        filename: tailscale
+        state: present
+      become: true
+
+    - name: Install tailscale client
+      ansible.builtin.apt:
+        state: present
+        name: tailscale
+      become: true

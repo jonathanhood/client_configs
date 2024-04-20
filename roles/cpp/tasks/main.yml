@@ -1,0 +1,18 @@
+
+- name: Install C/C++ Build Tools
+  when: ansible_facts['os_family'] == 'Debian'
+  apt:
+    pkg:
+      - build-essential
+      - gcovr
+      - clang
+      - clang-tidy
+      - clang-format
+      - pkg-config
+      - ninja-build
+    state: latest
+
+- name: Install meson python package
+  pip:
+    name: meson==1.0.0
+    extra_args: --user

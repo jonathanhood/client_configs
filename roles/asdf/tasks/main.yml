@@ -1,0 +1,9 @@
+
+- name: register status of asdf
+  stat:
+    path: "{{ ansible_env.HOME }}/.asdf"
+  register: asdf_path
+
+- name: Install asdf
+  when: "not asdf_path.stat.exists"
+  ansible.builtin.shell: git clone https://github.com/asdf-vm/asdf.git "{{ ansible_env.HOME }}/.asdf" --branch v0.14.0

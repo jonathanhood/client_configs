@@ -1,0 +1,40 @@
+
+- name: Install AWS CLI (Linux)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  - name: Download and Extract AWS CLI
+    ansible.builtin.unarchive:
+      src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: /opt
+      remote_src: yes
+      owner: jhood
+    become: true
+
+  - name: Run AWS CLI Updater
+    ansible.builtin.shell: /opt/aws/install --update
+    become: true
+
+- name: Install AWS CLI (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  block:
+  - name: Install AWS CLI
+    ansible.builtin.homebrew:
+      name: awscli
+      state: present
+
+- name: Create aws config directory
+  file:
+    path: "{{ ansible_env.HOME }}/.aws"
+    state: directory
+  
+- name: Copy Configuration
+  ansible.builtin.copy:
+    src: aws_config
+    dest: "{{ ansible_env.HOME }}/.aws/config"
+    mode: '0644'
+
+- name: Copy Credentials
+  ansible.builtin.template:
+    src: aws_credentials.j2
+    dest: "{{ ansible_env.HOME }}/.aws/credentials"
+    mode: '0600'

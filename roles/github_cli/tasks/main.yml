@@ -1,0 +1,23 @@
+- name: Setup Github CLI (Debian)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  - name: Install github apt key
+    ansible.builtin.get_url:
+      url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+      dest: /etc/apt/trusted.gpg.d/githubcli-archive-keyring.asc
+      mode: '0644'
+      force: true
+    become: true
+
+  - name: Install github apt repository
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64] https://cli.github.com/packages stable main
+      filename: github
+      state: present
+    become: true
+
+  - name: Install github cli
+    ansible.builtin.apt:
+      name: gh
+      state: present
+    become: true

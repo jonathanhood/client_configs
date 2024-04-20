@@ -1,0 +1,36 @@
+- name: Build and Install Fwup (Debian-based systems)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  - name: Install fwup build dependencies
+    apt:
+      name:
+        - build-essential
+        - autoconf
+        - pkg-config
+        - libtool
+        - mtools
+        - zip
+        - help2man
+        - libconfuse-dev
+        - libarchive-dev
+        - xdelta3
+        - dosfstools
+      state: present
+    become: true
+    
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: 'https://github.com/fwup-home/fwup.git'
+      dest: "{{ ansible_env.HOME }}/.fwup"
+      version: v1.10.1
+
+  - name: Build and Install Fwup
+    ansible.builtin.shell:
+      chdir: /home/jhood/.fwup
+      cmd: ./autogen.sh && ./configure --prefix=/home/jhood/.local && make && make install
+
+- name: Install Fwup (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  ansible.builtin.homebrew:
+    name: fwup
+    state: present

@@ -1,0 +1,11 @@
+- name: Install protobuf (Debian-based systems)
+  when: ansible_os_family == 'Debian'
+  apt:
+    pkg: protobuf-compiler
+    state: latest
+
+- name: Install protobuf (Mac)
+  when: ansible_os_family == 'Darwin'
+  homebrew:
+    name: protobuf
+    state: present
