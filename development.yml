@@ -1,6 +1,10 @@
 ---
 - name: Development System
   hosts: development
+  
+  module_defaults:
+    ansible.builtin.setup:
+      gather_subset: '!hardware'
 
   roles:
     # Common must come first

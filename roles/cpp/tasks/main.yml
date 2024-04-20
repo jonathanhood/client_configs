@@ -15,4 +15,5 @@
 - name: Install meson python package
   pip:
     name: meson==1.0.0
+    executable: /usr/bin/pip3
     extra_args: --user
