@@ -1,0 +1,28 @@
+- name: Create local bin directory
+  file:
+    path: "{{ ansible_user_dir }}/.local/bin"
+    state: directory 
+
+- name: Install Shell Tools  (Debian-based systems)
+  when: ansible_facts['os_family'] == 'Debian'
+  apt:
+    name:
+      - git
+      - unzip
+      - jq
+      - vim
+      - silversearcher-ag
+      - tree
+      - htop
+    state: present
+  become: true
+
+- name: Configure git email
+  community.general.git_config:
+    name: user.email
+    value: jonathan@thehoods.io
+
+- name: Configure git username
+  community.general.git_config:
+    name: user.name
+    value: Jonathan Hood

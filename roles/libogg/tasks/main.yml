@@ -1,0 +1,11 @@
+- name: Install libogg (Debian)
+  when: ansible_os_family == 'Debian'
+  apt:
+    name: libogg-dev
+    state: present
+
+- name: Install libogg (Mac)
+  when: ansible_os_family == 'Darwin'
+  homebrew:
+    name: libogg
+    state: present

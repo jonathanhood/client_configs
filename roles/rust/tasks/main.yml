@@ -1,0 +1,19 @@
+- name: Install Rust (Debian-based systems)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  - name: Get System Arch
+    shell: dpkg --print-architecture | sed 's/arm64/aarch64/'
+    register: rust_arch
+
+  - name: Download rustup-init
+    ansible.builtin.get_url:
+      url: "https://static.rust-lang.org/rustup/dist/{{ rust_arch.stdout }}-unknown-linux-gnu/rustup-init"
+      dest: /usr/local/bin/rustup-init
+      mode: '0555'
+    become: true
+
+  - name: Run rustup-init
+    ansible.builtin.shell: /usr/local/bin/rustup-init -q -y
+
+  - name: Install cross
+    shell: "{{ ansible_env.HOME }}/.cargo/bin/cargo install cross --git https://github.com/cross-rs/cross --branch v0.2.5"

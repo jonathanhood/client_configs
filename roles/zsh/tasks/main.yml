@@ -1,0 +1,51 @@
+
+- name: Install zsh (Debian)
+  when: ansible_facts['os_family'] == 'Debian'
+  apt:
+    name: zsh
+    state: present
+  become: true
+
+- name: register status of oh-my-zsh
+  stat:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  register: omz_path
+
+- name: Install oh-my-zsh
+  when: "not omz_path.stat.exists"
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+- name: register status of oh-my-posh
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/oh-my-posh"
+  register: omp_path
+
+- name: Install oh-my-posh
+  when: "not omp_path.stat.exists"
+  ansible.builtin.shell: "curl -s https://ohmyposh.dev/install.sh | bash -s -- -d {{ ansible_env.HOME }}/.local/bin"
+
+- name: Create themes directory
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-posh/themes"
+    state: directory
+
+- name: Install oh-my-posh theme
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/capr4n.omp.json
+    dest: "{{ ansible_env.HOME }}/.oh-my-posh/themes/capr4n.omp.json"
+    mode: '0644'
+
+- name: Set login shell to zsh
+  when: ansible_facts['os_family'] == 'Debian'
+  ansible.builtin.command: "usermod --shell /bin/zsh {{ ansible_user_id }}"
+  changed_when: false
+  become: true
+
+- name: Install Font
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/oh-my-posh font install FiraMono"
+
+- name: Copy .zshrc
+  ansible.builtin.copy:
+    src: zshrc
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    mode: '0644'

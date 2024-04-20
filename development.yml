@@ -1,0 +1,32 @@
+---
+- name: Development System
+  hosts: development
+  
+  module_defaults:
+    ansible.builtin.setup:
+      gather_subset: '!hardware'
+
+  roles:
+    # Common must come first
+    - common
+
+    # Other roles are less order dependent
+    - 1password
+    - android_ndk
+    - asdf
+    - aws
+    - cpp
+    - docker
+    - fwup
+    - github_cli
+    - libcurl
+    - libogg
+    - libopus
+    - libssl
+    - protobuf
+    - python
+    - rust
+    - tailscale
+    - trivy
+    - vscode
+    - zsh
