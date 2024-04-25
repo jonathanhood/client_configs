@@ -5,18 +5,18 @@
   - name: Install 1password apt key
     ansible.builtin.get_url:
       url: https://downloads.1password.com/linux/keys/1password.asc
-      dest: /etc/apt/trusted.gpg.d/1password.asc
+      dest: /etc/apt/trusted.gpg.d/1password-archive-keyring.asc
       mode: '0644'
       force: true
     become: true
 
   - name: Dearmor 1password key
-    ansible.builtin.shell: cat /etc/apt/trusted.gpg.d/1password.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/1password.gpg
+    ansible.builtin.shell: cat /etc/apt/trusted.gpg.d/1password-archive-keyring.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/1password-archive-keyring.gpg
     become: true
 
   - name: Install 1password apt repository
     ansible.builtin.apt_repository:
-      repo: deb [arch=amd64] https://downloads.1password.com/linux/debian/amd64 stable main
+      repo: deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main
       filename: 1password
       state: present
     become: true

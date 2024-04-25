@@ -1,0 +1,38 @@
+- name: Replace Snap Firefox w/ Deb Firefox
+  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu'
+  block:
+    - name: Remove Snap Firefox
+      ansible.builtin.snap:
+        name: firefox
+        state: absent
+      become: true
+    
+    - name: Install firefox apt key
+      ansible.builtin.get_url:
+        url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+        dest: /etc/apt/trusted.gpg.d/mozilla.asc
+        mode: '0644'
+        force: true
+      become: true
+
+    - name: Install firefox apt repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64,arm64] https://packages.mozilla.org/apt mozilla main
+        filename: mozilla
+        state: present
+      become: true
+    
+    - name: Pin firefox to the apt version
+      ansible.builtin.copy:
+        src: mozilla.pin
+        dest: /etc/apt/preferences.d/mozilla
+        mode: '0644'
+        force: true
+      become: true
+
+    - name: Install Firefox
+      ansible.builtin.apt:
+        name: firefox
+        state: latest
+        allow_downgrade: true
+      become: true
