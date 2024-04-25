@@ -3,6 +3,7 @@
   apt:
     name: libssl-dev
     state: present
+  become: true
 
 - name: Install libssl (Mac)
   when: ansible_os_family == 'Darwin'

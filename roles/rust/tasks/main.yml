@@ -2,7 +2,7 @@
   when: ansible_facts['os_family'] == 'Debian'
   block:
   - name: Get System Arch
-    shell: dpkg --print-architecture | sed 's/arm64/aarch64/'
+    shell: dpkg --print-architecture | sed 's/arm64/aarch64/' | sed 's/amd64/x86_64/'
     register: rust_arch
 
   - name: Download rustup-init

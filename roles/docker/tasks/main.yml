@@ -1,5 +1,5 @@
-- name: Install Docker (Ubuntu 22.04)
-  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'
+- name: Install Docker (Ubuntu)
+  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu'
   block:
 
   - name: Install docker apt key
@@ -11,8 +11,17 @@
     become: true
     
   - name: Install docker apt repository
+    when: ansible_facts['distribution_version'] == '22.04'
     ansible.builtin.apt_repository:
       repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu jammy stable
+      filename: docker
+      state: present
+    become: true
+  
+  - name: Install docker apt repository
+    when: ansible_facts['distribution_version'] == '24.04'
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64,arm64] https://download.docker.com/linux/ubuntu noble stable
       filename: docker
       state: present
     become: true

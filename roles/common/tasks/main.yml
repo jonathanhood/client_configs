@@ -14,6 +14,7 @@
       - silversearcher-ag
       - tree
       - htop
+      - curl
     state: present
   become: true
 
@@ -21,8 +22,10 @@
   community.general.git_config:
     name: user.email
     value: jonathan@thehoods.io
+    scope: global
 
 - name: Configure git username
   community.general.git_config:
     name: user.name
     value: Jonathan Hood
+    scope: global

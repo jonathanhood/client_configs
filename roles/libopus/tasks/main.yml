@@ -3,6 +3,7 @@
   apt:
     name: libopus-dev
     state: present
+  become: true
 
 - name: Install libopus (Mac)
   when: ansible_os_family == 'Darwin'

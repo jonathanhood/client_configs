@@ -3,6 +3,7 @@
   apt:
     pkg: protobuf-compiler
     state: latest
+  become: true
 
 - name: Install protobuf (Mac)
   when: ansible_os_family == 'Darwin'

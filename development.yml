@@ -16,6 +16,7 @@
     - asdf
     - aws
     - cpp
+    - discord
     - docker
     - fwup
     - github_cli
@@ -27,6 +28,6 @@
     - python
     - rust
     - tailscale
-    - trivy
+    #- trivy (Doesn't support 24.04 yet)
     - vscode
     - zsh

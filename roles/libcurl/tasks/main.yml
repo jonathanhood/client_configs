@@ -3,6 +3,7 @@
   apt:
     name: libcurl4-openssl-dev
     state: present
+  become: true
 
 - name: Install libcurl (Mac)
   when: ansible_os_family == 'Darwin'

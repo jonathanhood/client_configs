@@ -4,7 +4,7 @@
   - name: Install github apt key
     ansible.builtin.get_url:
       url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-      dest: /etc/apt/trusted.gpg.d/githubcli-archive-keyring.asc
+      dest: /etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg
       mode: '0644'
       force: true
     become: true

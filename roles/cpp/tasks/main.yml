@@ -10,10 +10,8 @@
       - clang-format
       - pkg-config
       - ninja-build
+      - python3-pip
+      - meson
     state: latest
+  become: true
 
-- name: Install meson python package
-  pip:
-    name: meson==1.0.0
-    executable: /usr/bin/pip3
-    extra_args: --user

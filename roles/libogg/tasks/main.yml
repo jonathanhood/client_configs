@@ -3,6 +3,7 @@
   apt:
     name: libogg-dev
     state: present
+  become: true
 
 - name: Install libogg (Mac)
   when: ansible_os_family == 'Darwin'
