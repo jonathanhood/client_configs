@@ -1,9 +1,9 @@
-- name: Install Slack
+- name: Install Element
   when: ansible_facts['distribution'] == 'Ubuntu'
   block:
-    - name: Install Slack Snap
+    - name: Install Element Desktop Snap
       community.general.snap:
-          name: slack
+          name: element-desktop
           channel: latest/stable
       become: true
 
