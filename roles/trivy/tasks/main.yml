@@ -1,5 +1,5 @@
 - name: Setup Trivy (Ubuntu)
-  when: ansible_facts['distribution'] == 'Ubuntu'
+  when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] in ['22.04']
   block:
     - name: Add trivy signing key
       ansible.builtin.get_url:
@@ -17,14 +17,6 @@
       when: ansible_facts['distribution_version'] == '22.04'
       ansible.builtin.apt_repository:
         repo: deb https://aquasecurity.github.io/trivy-repo/deb jammy main
-        filename: trivy
-        state: present
-      become: true
-    
-    - name: Add trivy repository
-      when: ansible_facts['distribution_version'] == '24.04'
-      ansible.builtin.apt_repository:
-        repo: deb https://aquasecurity.github.io/trivy-repo/deb noble main
         filename: trivy
         state: present
       become: true
