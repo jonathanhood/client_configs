@@ -27,5 +27,6 @@
     - tailscale
     - tlp
     #- trivy (Doesn't support 24.04 yet)
+    - vim
     - vscode
     - zsh

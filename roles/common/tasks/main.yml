@@ -10,7 +10,6 @@
       - git
       - unzip
       - jq
-      - vim
       - silversearcher-ag
       - tree
       - htop

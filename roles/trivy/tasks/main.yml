@@ -1,5 +1,5 @@
 - name: Setup Trivy (Ubuntu)
-  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu'
+  when: ansible_facts['distribution'] == 'Ubuntu'
   block:
     - name: Add trivy signing key
       ansible.builtin.get_url:

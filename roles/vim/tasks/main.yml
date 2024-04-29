@@ -1,0 +1,25 @@
+- name: Install vim
+  when: ansible_facts['os_family'] == 'Debian'
+  ansible.builtin.apt:
+    name: vim
+    state: present
+  become: true
+
+- name: Make vim the git editor
+  community.general.git_config:
+    name: core.editor
+    value: vim
+    scope: global
+
+- name: Install vim-sensible
+  block:
+    - name: Create Plugin Directory
+      file:
+        path: "{{ ansible_user_dir }}/.vim/pack/tpoe/start"
+        state: directory
+
+    - name: Clone vim-sensible
+      ansible.builtin.git:
+        repo: https://tpope.io/vim/sensible.git
+        dest: "{{ ansible_user_dir }}/.vim/pack/tpoe/start/sensible"
+        update: false
