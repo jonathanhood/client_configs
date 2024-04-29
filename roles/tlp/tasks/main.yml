@@ -1,23 +1,52 @@
-- name: Install TLP (Ubuntu PPA)
-  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['board_vendor'] == 'Framework'
+- name: Setup TLP (Framework Laptop)
+  when: ansible_facts['board_vendor'] == 'Framework'
   block:
-    - name: Add TLP PPA
-      ansible.builtin.apt_repository:
-        repo: ppa:linrunner/tlp
-        state: present
-      become: true
+    - name: Install TLP (Ubuntu 22.04)
+      when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'
+      block:
+        - name: Add TLP PPA
+          ansible.builtin.apt_repository:
+            repo: ppa:linrunner/tlp
+            state: present
+          become: true
 
-    - name: Install tlp
-      ansible.builtin.apt:
-        name:
-          - tlp
-          - tlp-rdw
-        state: latest
-      become: true
+        - name: Install tlp
+          ansible.builtin.apt:
+            name:
+              - tlp
+              - tlp-rdw
+            state: latest
+          become: true
+        
+        - name: Start and Enable TLP Service
+          ansible.builtin.systemd:
+            name: tlp
+            state: started
+            enabled: yes
+          become: true
+
+    - name: Uninstall TLP (Ubuntu 24.04)
+      when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '24.04'
+      block:
+        - name: Stop and Disable TLP Service
+          ansible.builtin.systemd:
+            name: tlp
+            state: stopped
+            enabled: no
+          become: true
+
+        - name: Make sure TLP is Removed
+          ansible.builtin.apt:
+            name:
+              - tlp
+              - tlp-rdw
+            state: absent
+          become: true
+
+        - name: Remove TLP PPA
+          ansible.builtin.apt_repository:
+            repo: ppa:linrunner/tlp
+            state: absent
+          become: true
     
-    - name: Start and Enable TLP Service
-      ansible.builtin.systemd:
-        name: tlp
-        state: started
-        enabled: yes
-      become: true
+    
