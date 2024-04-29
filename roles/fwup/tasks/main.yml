@@ -23,12 +23,14 @@
       repo: 'https://github.com/fwup-home/fwup.git'
       dest: "{{ ansible_env.HOME }}/.fwup"
       version: v1.10.1
+      update: false
 
   - name: Build and Install Fwup
     ansible.builtin.shell:
       chdir: /home/jhood/.fwup
       cmd: ./autogen.sh && ./configure --prefix=/home/jhood/.local && make && make install
-
+      creates: /home/jhood/.local/bin/fwup
+    
 - name: Install Fwup (Mac)
   when: ansible_facts['os_family'] == 'Darwin'
   ansible.builtin.homebrew:

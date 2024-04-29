@@ -1,10 +1,6 @@
 ---
 - name: Development System
   hosts: development
-  
-  module_defaults:
-    ansible.builtin.setup:
-      gather_subset: '!hardware'
 
   roles:
     # Common must come first
@@ -29,6 +25,7 @@
     - python
     - rust
     - tailscale
+    - tlp
     #- trivy (Doesn't support 24.04 yet)
     - vscode
     - zsh

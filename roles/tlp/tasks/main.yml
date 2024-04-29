@@ -1,0 +1,23 @@
+- name: Install TLP (Ubuntu PPA)
+  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['board_vendor'] == 'Framework'
+  block:
+    - name: Add TLP PPA
+      ansible.builtin.apt_repository:
+        repo: ppa:linrunner/tlp
+        state: present
+      become: true
+
+    - name: Install tlp
+      ansible.builtin.apt:
+        name:
+          - tlp
+          - tlp-rdw
+        state: latest
+      become: true
+    
+    - name: Start and Enable TLP Service
+      ansible.builtin.systemd:
+        name: tlp
+        state: started
+        enabled: yes
+      become: true
