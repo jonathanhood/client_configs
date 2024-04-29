@@ -24,6 +24,7 @@
     - protobuf
     - python
     - rust
+    - slack
     - tailscale
     - tlp
     #- trivy (Doesn't support 24.04 yet)
