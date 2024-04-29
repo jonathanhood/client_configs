@@ -31,4 +31,5 @@
     - trivy
     - vim
     - vscode
+    - wireguard
     - zsh

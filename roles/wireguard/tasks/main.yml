@@ -1,0 +1,16 @@
+- name: Setup Tailscale
+  when: ansible_facts['os_family'] == 'Debian' and wireguard_private_key is defined
+  block:
+    - name: Install Wireguard
+      ansible.builtin.apt:
+        state: present
+        name: wireguard
+      become: true
+
+    - name: Configure Wireguard
+      ansible.builtin.template:
+        src: wg0.conf.j2
+        dest: /etc/wireguard/wg0.conf
+        mode: 0600
+      become: true
+
