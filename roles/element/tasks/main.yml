@@ -1,9 +1,16 @@
-- name: Install Element
+- name: Install Element (Ubuntu)
   when: ansible_facts['distribution'] == 'Ubuntu'
   block:
-    - name: Install Element Desktop Snap
+    - name: Install Element Desktop
       community.general.snap:
           name: element-desktop
           channel: latest/stable
       become: true
+
+- name: Install Element (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew_cask:
+      name: element
+      state: present
+
 

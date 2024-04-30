@@ -1,4 +1,4 @@
-- name: Install Rust (Debian-based systems)
+- name: Install Rust (Debian)
   when: ansible_facts['os_family'] == 'Debian'
   block:
   - name: Get System Arch
@@ -11,6 +11,21 @@
       dest: /usr/local/bin/rustup-init
       mode: '0555'
     become: true
+
+  - name: Run rustup-init
+    ansible.builtin.shell: /usr/local/bin/rustup-init -q -y
+
+  - name: Install cross
+    shell: "{{ ansible_env.HOME }}/.cargo/bin/cargo install cross --git https://github.com/cross-rs/cross --branch v0.2.5"
+
+- name: Install Rust (Mac)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+  - name: Download rustup-init
+    ansible.builtin.homebrew:
+      name: rustup-init
+      state: present
 
   - name: Run rustup-init
     ansible.builtin.shell: /usr/local/bin/rustup-init -q -y

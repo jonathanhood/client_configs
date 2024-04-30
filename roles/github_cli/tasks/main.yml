@@ -21,3 +21,9 @@
       name: gh
       state: present
     become: true
+
+- name: Install github cli (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew:
+    name: gh
+    state: present

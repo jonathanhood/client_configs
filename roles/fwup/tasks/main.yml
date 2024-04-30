@@ -1,4 +1,4 @@
-- name: Build and Install Fwup (Debian-based systems)
+- name: Build and Install Fwup (Debian)
   when: ansible_facts['os_family'] == 'Debian'
   block:
   - name: Install fwup build dependencies

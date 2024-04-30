@@ -1,7 +1,4 @@
-##
-## VSCode
-##
-- name: Setup VSCode (Debian-based Systems)
+- name: Setup VSCode (Debian)
   when: ansible_facts['os_family'] == 'Debian'
   block:
   - name: Install vscode apt key

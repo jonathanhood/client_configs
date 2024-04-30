@@ -17,6 +17,19 @@
     state: present
   become: true
 
+- name: Install Shell Tools  (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  ansible.builtin.homebrew:
+    name:
+      - git
+      - unzip
+      - jq
+      - the_silver_searcher
+      - tree
+      - htop
+      - curl
+    state: present
+
 - name: Configure git email
   community.general.git_config:
     name: user.email

@@ -5,6 +5,12 @@
     state: present
   become: true
 
+- name: Install vim
+  when: ansible_facts['os_family'] == 'Darwin'
+  ansible.builtin.homebrew:
+    name: vim
+    state: present
+
 - name: Make vim the git editor
   community.general.git_config:
     name: core.editor

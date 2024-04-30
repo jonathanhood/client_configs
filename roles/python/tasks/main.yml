@@ -1,4 +1,4 @@
-- name: Install python3 (Debian-based Systems)
+- name: Install python3 (Debian)
   when: ansible_facts['os_family'] == 'Debian'
   apt:
     name:
@@ -6,3 +6,10 @@
       - python3-pip
     state: present
   become: true
+
+- name: Install python3 (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew:
+    name: python3
+    state: present
+

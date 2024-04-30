@@ -1,9 +1,12 @@
-- name: Install Slack
+- name: Install Slack (Ubuntu)
   when: ansible_facts['distribution'] == 'Ubuntu'
-  block:
-    - name: Install Slack Snap
-      community.general.snap:
-          name: slack
-          channel: latest/stable
-      become: true
+  community.general.snap:
+      name: slack
+      channel: latest/stable
+  become: true
 
+- name: Install Slack (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew_cask:
+    name: slack
+    state: present

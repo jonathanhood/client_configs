@@ -1,5 +1,7 @@
 - name: Setup TLP (Framework Laptop)
-  when: ansible_facts['board_vendor'] == 'Framework'
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - ansible_facts['board_vendor'] == 'Framework'
   block:
     - name: Install TLP (Ubuntu 22.04)
       when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'

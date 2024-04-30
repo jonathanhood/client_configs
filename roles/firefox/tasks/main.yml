@@ -1,5 +1,5 @@
 - name: Replace Snap Firefox w/ Deb Firefox
-  when: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution'] == 'Ubuntu'
+  when: ansible_facts['distribution'] == 'Ubuntu'
   block:
     - name: Remove Snap Firefox
       ansible.builtin.snap:
@@ -36,3 +36,10 @@
         state: latest
         allow_downgrade: true
       become: true
+
+- name: Install Firefox (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew_cask:
+    name: firefox
+    state: present
+
