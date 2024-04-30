@@ -21,3 +21,9 @@
       name: code
       state: present
     become: true
+
+- name: Install VSCode (Mac)
+  when: ansible_facts['os_family'] == 'Darwin'
+  community.general.homebrew_cask:
+    name: visual-studio-code
+    state: present
