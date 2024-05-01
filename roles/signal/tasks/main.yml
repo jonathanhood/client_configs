@@ -1,0 +1,27 @@
+- name: Setup Tailscale (Ubuntu)
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - ansible_facts['machine'] == 'x86_64'
+  block:
+    - name: Add signal signing key
+      ansible.builtin.get_url:
+        url: https://updates.signal.org/desktop/apt/keys.asc
+        dest: /tmp/signal.asc
+      become: true
+
+    - name: Dearmor signal key
+      ansible.builtin.shell: cat /tmp/signal.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/signal-desktop.gpg
+      become: true
+
+    - name: Add signal repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main
+        filename: signal-desktop
+        state: present
+      become: true
+
+    - name: Install signal desktop
+      ansible.builtin.apt:
+        state: present
+        name: signal-desktop
+      become: true

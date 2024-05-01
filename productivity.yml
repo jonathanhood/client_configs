@@ -1,0 +1,13 @@
+---
+- name: Productivity Items
+  hosts: productivity
+
+  roles:
+    - 1password
+    - discord
+    - element
+    - firefox
+    - signal
+    - slack
+    - tlp
+    - wireguard

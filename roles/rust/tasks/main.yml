@@ -19,7 +19,7 @@
     shell: "{{ ansible_env.HOME }}/.cargo/bin/cargo install cross --git https://github.com/cross-rs/cross --branch v0.2.5"
 
 - name: Install Rust (Mac)
-  when: ansible_facts['os_family'] == 'Debian'
+  when: ansible_facts['os_family'] == 'Darwin'
   block:
 
   - name: Download rustup-init

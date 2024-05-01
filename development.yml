@@ -1,5 +1,5 @@
 ---
-- name: Development System
+- name: Development Items
   hosts: development
 
   roles:
@@ -12,10 +12,7 @@
     - asdf
     - aws
     - cpp
-    - discord
     - docker
-    - element
-    - firefox
     - fwup
     - github_cli
     - libcurl
@@ -25,11 +22,9 @@
     - protobuf
     - python
     - rust
-    - slack
     - tailscale
     - tlp
     - trivy
     - vim
     - vscode
-    - wireguard
     - zsh

@@ -1,5 +1,5 @@
 ---
-- name: Gaming System
+- name: Gaming Items
   hosts: gaming
 
   roles:
