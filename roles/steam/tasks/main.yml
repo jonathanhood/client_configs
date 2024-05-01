@@ -7,12 +7,6 @@
       changed_when: false
       failed_when: false
 
-    - name: Check if steam is installed
-      ansible.builtin.command: dpkg -l | grep steam-launcher
-      register: steam_installed
-      changed_when: false
-      failed_when: false
-
     - name: Add i386 Architecture
       when: i386_enabled.rc == 0
       block:
@@ -24,15 +18,36 @@
             update_cache: yes
           become: true
 
-    - name: Install Steam
-      when: steam_installed.rc == 1
-      block:
-        - name: Download steam deb pkg
-          ansible.builtin.get_url:
-            url: http://repo.steampowered.com/steam/archive/stable/steam_latest.deb
-            dest: /tmp/steam.deb
-          become: true
-        - name: Install steam
-          ansible.builtin.apt:
-            deb: /tmp/steam.deb
-          become: true
+    - name: Add steam signing key
+      ansible.builtin.get_url:
+        url: https://repo.steampowered.com/steam/archive/stable/steam.gpg
+        dest: /etc/apt/trusted.gpg.d/steam.gpg
+        mode: '0644'
+        force: true
+      become: true
+
+    - name: Add steam repository
+      when: ansible_facts['distribution_version'] == '24.04'
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
+        filename: steam-stable
+        state: present
+      become: true
+
+    - name: Divert Steam Repository Config (Beta)
+      community.general.dpkg_divert:
+        path: /etc/apt/sources.list.d/steam-beta.list
+        divert: /etc/apt/sources.list.d/steam-beta.list.dpkg-steamlauncher
+      become: true
+
+    - name: Divert Steam Repository Config (Stable)
+      community.general.dpkg_divert:
+        path: /etc/apt/sources.list.d/steam-stable.list
+        divert: /etc/apt/sources.list.d/steam-stable.list.dpkg-steamlauncher
+      become: true
+
+    - name: Install steam
+      ansible.builtin.apt:
+        state: present
+        name: steam-launcher
+      become: true

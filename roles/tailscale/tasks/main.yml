@@ -35,6 +35,12 @@
         state: present
       become: true
 
+    - name: Divert Tailscale Repository Config
+      community.general.dpkg_divert:
+        path: /etc/apt/sources.list.d/tailscale.list
+        divert: /etc/apt/sources.list.d/tailscale.list.dpkg-tailscale
+      become: true
+
     - name: Install tailscale client
       ansible.builtin.apt:
         state: present
