@@ -1,0 +1,7 @@
+---
+- name: Gaming System
+  hosts: gaming
+
+  roles:
+    - discord
+    - steam

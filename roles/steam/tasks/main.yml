@@ -1,0 +1,38 @@
+- name: Install Steam (Debian)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+    - name: Check if i386 is enabled
+      ansible.builtin.command: dpkg --print-foreign-architectures | grep i386
+      register: i386_enabled
+      changed_when: false
+      failed_when: false
+
+    - name: Check if steam is installed
+      ansible.builtin.command: dpkg -l | grep steam-launcher
+      register: steam_installed
+      changed_when: false
+      failed_when: false
+
+    - name: Add i386 Architecture
+      when: i386_enabled.rc == 0
+      block:
+        - name: Add dpkg architecture
+          ansible.builtin.command: dpkg --add-architecture i386
+          become: true
+        - name: Perform an apt update
+          ansible.builtin.apt:
+            update_cache: yes
+          become: true
+
+    - name: Install Steam
+      when: steam_installed.rc == 1
+      block:
+        - name: Download steam deb pkg
+          ansible.builtin.get_url:
+            url: http://repo.steampowered.com/steam/archive/stable/steam_latest.deb
+            dest: /tmp/steam.deb
+          become: true
+        - name: Install steam
+          ansible.builtin.apt:
+            deb: /tmp/steam.deb
+          become: true
