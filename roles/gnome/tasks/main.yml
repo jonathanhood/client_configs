@@ -24,3 +24,29 @@
         key: "/org/gnome/shell/extensions/dash-to-dock/extend-height"
         value: "false"
         state: present
+    - name: Disable system font
+      community.general.dconf:
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/use-system-font"
+        value: "false"
+        state: present
+    - name: Disable theme colors
+      community.general.dconf:
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/use-theme-colors"
+        value: "false"
+        state: present
+    - name: Set terminal background color
+      community.general.dconf:
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/background-color"
+        value: "'rgb(23,20,33)'"
+        state: present
+    - name: Set terminal foreground color
+      community.general.dconf:
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/foreground-color"
+        value: "'rgb(208,207,204)'"
+        state: present
+    - name: Set terminal font
+      community.general.dconf:
+        key: "/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/font"
+        value: "'FiraMono Nerd Font 10'"
+        state: present
+      
