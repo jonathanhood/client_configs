@@ -15,6 +15,7 @@
     - docker
     - fwup
     - github_cli
+    - gnome
     - libcurl
     - libogg
     - libopus

@@ -1,0 +1,26 @@
+- name: Apply Gnome Customizations
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
+  block:
+    - name: Install Config Editors
+      apt:
+        name:
+          - dconf-editor
+          - gnome-shell-extension-prefs
+        state: present
+      become: true
+    - name: Enable Minimize on Dock Click
+      community.general.dconf:
+        key: "/org/gnome/shell/extensions/dash-to-dock/click-action"
+        value: "'minimize'"
+        state: present
+    - name: Move Dock to the Bottom
+      community.general.dconf:
+        key: "/org/gnome/shell/extensions/dash-to-dock/dock-position"
+        value: "'BOTTOM'"
+        state: present
+    - name: Disable Dock Extend to the Screen Edge
+      community.general.dconf:
+        key: "/org/gnome/shell/extensions/dash-to-dock/extend-height"
+        value: "false"
+        state: present
