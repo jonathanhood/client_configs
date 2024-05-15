@@ -1,0 +1,7 @@
+---
+- name: Productivity Items
+  hosts: portainer
+
+  roles:
+    - docker
+    - portainer
