@@ -1,0 +1,36 @@
+
+
+- name: Install Minecraft Server Control (msctl)
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+  - name: Install Dependencies
+    apt:
+      pkg:
+        - openjdk-21-jre
+        - perl
+        - libjson-perl
+        - libwww-perl
+        - liblwp-protocol-https-perl
+        - util-linux
+        - python3
+        - make
+        - wget 
+        - git
+        - rdiff-backup
+        - rsync 
+        - socat
+      state: latest
+    become: true
+
+  - name: Checkout mscs
+    ansible.builtin.git:
+      repo: 'https://github.com/MinecraftServerControl/mscs.git'
+      dest: "{{ ansible_env.HOME }}/.mscs"
+      update: false
+
+  - name: Install mscs
+    ansible.builtin.shell:
+      chdir: /home/jhood/.mscs
+      cmd: make install
+      creates: /usr/local/bin/msctl
+    become: true
