@@ -1,0 +1,6 @@
+---
+- name: Gitlab Server
+  hosts: gitlab
+
+  roles:
+    - common

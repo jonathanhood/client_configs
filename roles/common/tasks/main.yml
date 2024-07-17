@@ -1,7 +1,14 @@
 - name: Create local bin directory
   file:
     path: "{{ ansible_user_dir }}/.local/bin"
-    state: directory 
+    state: directory
+
+- name: Set authorized_keys
+  ansible.posix.authorized_key:
+    user: jhood
+    state: present
+    key: "{{ lookup('file', 'jhood_key.pub') }}"
+    exclusive: true
 
 - name: Install Shell Tools  (Debian-based systems)
   when: ansible_facts['os_family'] == 'Debian'

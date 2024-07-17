@@ -3,5 +3,6 @@
   hosts: gaming
 
   roles:
+    - common
     - discord
     - steam

@@ -3,10 +3,7 @@
   hosts: development
 
   roles:
-    # Common must come first
     - common
-
-    # Other roles are less order dependent
     - 1password
     - android_ndk
     - asdf

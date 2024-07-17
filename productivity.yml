@@ -3,6 +3,7 @@
   hosts: productivity
 
   roles:
+    - common
     - 1password
     - discord
     - element

@@ -1,7 +1,8 @@
 ---
-- name: Productivity Items
+- name: Portainer Server
   hosts: portainer
 
   roles:
+    - common
     - docker
     - portainer
