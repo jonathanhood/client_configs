@@ -1,0 +1,32 @@
+- name: Create FreshRSS Data Directory
+  ansible.builtin.file:
+    path: /mnt/docker-data/fresh-rss
+    state: directory
+  become: true
+
+- name: Install FreshRSS Configuration
+  ansible.builtin.copy:
+    src: freshrss.env
+    dest: /mnt/docker-data/fresh-rss/.env
+    mode: '0644'
+    force: true
+  become: true
+
+- name: Start FreshRSS Container
+  community.docker.docker_container:
+    name: freshrss
+    image: freshrss/freshrss:latest
+    image_name_mismatch: recreate
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    env_file: /mnt/docker-data/fresh-rss/.env
+    ports:
+      - "8080:80"
+    volumes:
+      - /mnt/docker-data/fresh-rss/data:/var/www/FreshRSS/data
+      - /mnt/docker-data/fresh-rss/extensions:/var/www/FreshRSS/extensions
+    log_driver: json-file
+    log_options:
+      max-size: 10m
+  become: true

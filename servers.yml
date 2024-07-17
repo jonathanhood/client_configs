@@ -1,0 +1,7 @@
+---
+- import_playbook: assistant.yml
+- import_playbook: gitlab.yml
+- import_playbook: minecraft.yml
+- import_playbook: portainer.yml
+- import_playbook: proxy.yml
+- import_playbook: rss.yml

@@ -1,0 +1,9 @@
+---
+- name: Home Assistant Server
+  hosts: assistant
+
+  roles:
+    - common
+    - python
+    - docker
+    - home_assistant

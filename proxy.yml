@@ -1,0 +1,9 @@
+---
+- name: Reverse Proxy Server
+  hosts: proxy
+
+  roles:
+    - common
+    - python
+    - docker
+    - nginx_proxy_manager

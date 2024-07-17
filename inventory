@@ -11,10 +11,19 @@ Jonathans-MBP
 jhood-framework
 
 [portainer]
-portainer.home.thehoods.io
+portainer.local.thehoods.io
 
 [minecraft]
-minecraft.home.thehoods.io
+minecraft.local.thehoods.io
 
 [gitlab]
-gitlab.home.thehoods.io
+gitlab.local.thehoods.io
+
+[proxy]
+proxy.local.thehoods.io
+
+[rss]
+rss.local.thehoods.io
+
+[assistant]
+assistant.local.thehoods.io
