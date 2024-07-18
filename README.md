@@ -1,51 +1,5 @@
-# Configuration
+# Client Configs
 
-This repository contains some configuration useful for both my mac and linux machines. The most important 
-is my vim setup - which I never could get consistent between machines before making this repo.
-
-To setup a new machine:
-
-```bash
-git clone https://github.com/jonathanhood/config.git
-cd config
-./pull_submodules.sh
-./setup_system.sh
-./install_software.sh
-```
-
-# Setting up GPG for Yubikey (Ubuntu 18.04)
-
-First, make sure gpg is installed along with daemons needed for reading the yubikey as a smart card.
-
-```
-sudo apt install curl gnupg2 pcscd scdaemon
-```
-
-Now, download the public key for the card.
-
-```
-gpg --edit-card
-fetch
-quit
-```
-
-Now, edit `~/.gnupg/gpg-agent.conf" to contain the following contents:
-
-```
-default-cache-ttl 600
-max-cache-ttl 7200
-enable-ssh-support
-```
-
-Reload the gpg agent manually:
-
-```
-gpg-connect-agent reloadagent /bye
-```
-
-And add the following content to `~/.bashrc`:
-
-```
-export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
-```
-
+Configuration information, encoded as ansible playbooks, useful for setting up
+my personal dev machines both physical and VMs. These are either macs or linux
+machines and many of the roles in here support both - but no guarantees.
