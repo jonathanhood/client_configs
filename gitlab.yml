@@ -1,8 +1,0 @@
----
-- name: Gitlab Server
-  hosts: gitlab
-
-  roles:
-    - common
-    - python
-    - unattended_upgrades

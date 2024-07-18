@@ -1,9 +1,0 @@
----
-- name: Portainer Server
-  hosts: portainer
-
-  roles:
-    - common
-    - docker
-    - portainer
-    - unattended_upgrades

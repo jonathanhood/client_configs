@@ -1,8 +1,0 @@
----
-- name: Minecraft Server
-  hosts: minecraft
-
-  roles:
-    - common
-    - minecraft
-    - unattended_upgrades
