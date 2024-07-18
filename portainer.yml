@@ -6,3 +6,4 @@
     - common
     - docker
     - portainer
+    - unattended_upgrades

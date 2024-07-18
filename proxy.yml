@@ -7,3 +7,4 @@
     - python
     - docker
     - nginx_proxy_manager
+    - unattended_upgrades

@@ -7,3 +7,4 @@
     - python
     - docker
     - freshrss
+    - unattended_upgrades

@@ -7,3 +7,4 @@
     - python
     - docker
     - home_assistant
+    - unattended_upgrades
